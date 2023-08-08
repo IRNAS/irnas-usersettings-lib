@@ -18,7 +18,6 @@ extern "C" {
 #endif
 
 #include <stddef.h>
-#include <user_settings_list.h>
 #include <user_settings_protocol_types.h>
 
 /**

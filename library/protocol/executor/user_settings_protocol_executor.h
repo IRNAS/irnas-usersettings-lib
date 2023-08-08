@@ -20,7 +20,6 @@ extern "C" {
 
 #include <zephyr/types.h>
 
-#include <user_settings_list.h>
 #include <user_settings_protocol_types.h>
 
 typedef int (*uspe_decode_command_t)(uint8_t *buffer, size_t len,

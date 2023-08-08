@@ -67,6 +67,10 @@ struct user_settings_protocol_command {
 
 } __attribute__((packed));
 
+/* Forward declaration of an internal user setting representation. This is required to wire the
+ * callbacks of the executor to a specific protocol implementation. */
+struct user_setting;
+
 #ifdef __cplusplus
 }
 #endif

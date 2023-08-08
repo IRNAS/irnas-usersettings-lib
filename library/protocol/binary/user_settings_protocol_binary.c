@@ -8,6 +8,8 @@
 
 #include "user_settings_protocol_binary.h"
 
+#include <user_settings_list.h>
+
 #include <zephyr/kernel.h>
 
 #include <string.h>
