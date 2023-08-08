@@ -30,7 +30,7 @@ LOG_MODULE_REGISTER(bt_sds, CONFIG_USER_SETTINGS_BT_SERVICE_LOG_LEVEL);
 #define BT_UUID_USS_CHAR    BT_UUID_DECLARE_128(BT_UUID_USS_CHAR_VAL)
 
 /* Forward declared notify function */
-static int prv_send_notification(uint8_t *data, size_t len);
+static int prv_send_notification(uint8_t *data, size_t len, void *user_data);
 
 /* Save connection that is using the settings service so a notification can be sent to it */
 static struct bt_conn *prv_bt_conn;
@@ -63,7 +63,8 @@ static ssize_t prv_on_receive_write(struct bt_conn *conn, const struct bt_gatt_a
 	LOG_DBG("Received data, handle %d, conn %p", attr->handle, (void *)conn);
 
 	/* decode and execute */
-	int err = usp_executor_parse_and_execute(&prv_usp_binary_executor, (uint8_t *)buf, len);
+	int err =
+		usp_executor_parse_and_execute(&prv_usp_binary_executor, (uint8_t *)buf, len, NULL);
 	if (!err) {
 		return len;
 	}
@@ -102,8 +103,9 @@ BT_GATT_SERVICE_DEFINE(prv_uss_service,
  * @retval -ENOTCONN if the connected device is not subscribed to notifications
  * @retval -EIO if sending the notification fails
  */
-static int prv_send_notification(uint8_t *data, size_t len)
+static int prv_send_notification(uint8_t *data, size_t len, void *user_data)
 {
+	ARG_UNUSED(user_data);
 	int ret;
 
 	if (!prv_bt_conn) {
