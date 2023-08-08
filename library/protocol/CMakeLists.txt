@@ -1,5 +1,6 @@
 
 zephyr_library_include_directories(.)
+zephyr_include_directories(.)
 
 add_subdirectory_ifdef(CONFIG_USER_SETTINGS_PROTOCOL_BINARY binary)
 add_subdirectory_ifdef(CONFIG_USER_SETTINGS_PROTOCOL_EXECUTOR executor)
