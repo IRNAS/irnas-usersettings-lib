@@ -53,7 +53,7 @@ ZTEST(user_settings_json_suite, test_settings_parse_invalid_json_structure)
 
 	cJSON *settings = cJSON_Parse(invalid);
 
-	int err = user_settings_set_from_json(settings);
+	int err = user_settings_set_from_json(settings, false);
 	zassert_not_equal(err, 0, "Parsing json should have failed.");
 
 	/* make sure setting was not modified */
@@ -84,7 +84,7 @@ ZTEST(user_settings_json_suite, test_settings_parse_json)
 	cJSON_AddItemToObject(settings, "t3", bytes_value);
 	cJSON_AddItemToObject(settings, "t4", string_value);
 
-	err = user_settings_set_from_json(settings);
+	err = user_settings_set_from_json(settings, false);
 	zassert_equal(err, 0, "Parsing json failed.");
 
 	/* Check set values */
