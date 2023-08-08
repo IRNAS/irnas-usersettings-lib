@@ -40,6 +40,13 @@ enum user_settings_protocol_command_type {
 	/** Restore default values. */
 	USPC_RESTORE = 7,
 
+	/* Get id, key, name, type, length and value for a list of settings. */
+	USPC_LIST_SOME = 8,
+
+	/* Get id, key, name, type, length, max length value, default value for a list of settings.
+	 */
+	USPC_LIST_SOME_FULL = 9,
+
 	/** Internal use only. */
 	USPC_NUM_COMMANDS,
 

@@ -110,6 +110,19 @@ int user_settings_protocol_binary_decode_command(uint8_t *buffer, size_t len,
 
 		return i;
 	}
+	case USPC_LIST_SOME:
+	case USPC_LIST_SOME_FULL: {
+		/* key, 1 byte for number of setting IDs and N*2 bytes for the IDs */
+		size_t id_buffer_len = len - sizeof(command->type) - 1;
+		uint8_t num_ids = buffer[i++];
+		if (id_buffer_len / 2 != num_ids) {
+			return -EPROTO;
+		}
+		command->value_len = num_ids * 2;
+		memcpy(command->value, &buffer[sizeof(command->type) + 1], id_buffer_len);
+		i += command->value_len;
+		return i;
+	}
 	default:
 		/* Unknown command */
 		return -ENOTSUP;

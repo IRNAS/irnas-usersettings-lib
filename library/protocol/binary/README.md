@@ -25,8 +25,8 @@ If the value of the settings is not set, LEN will be zero and no value is encode
 
 Some Examples:
 
-- a u8 setting with ID 7 , key `s7` and value 7 is encoded as: `0700733700010107`
-- a u8 setting with ID 7 , key `s7` and no value is encoded as: `07007337000100`
+- a u8 setting with ID 7, key `s7` and value 7 is encoded as: `0700733700010107`
+- a u8 setting with ID 7, key `s7` and no value is encoded as: `07007337000100`
 
 ## GET FULL (0x02)
 
@@ -68,6 +68,18 @@ For example, to set the default value of setting with id 13 to 10 (the setting i
 ## RESTORE (0x07)
 
 A valid restore command is encoded as `07`.
+
+## LIST SOME (0x08)
+
+A valid list some command is encoded as [1 byte command (0x08), 1 byte number of settings (N), N * 2 byte setting ID].
+
+Each setting is encoded separately as specified in the GET command.
+
+## LIST SOME FULL (0x09)
+
+A valid list some full command is encoded as [1 byte command (0x09), 1 byte number of settings (N), N * 2 byte setting ID].
+
+Each setting is encoded separately as specified in the GET FULL command.
 
 ## Additional examples
 

@@ -24,21 +24,25 @@ extern "C" {
  * @brief Decode command in binary format to a command in user settings protocol structure
  * representation
  *
- * The binary command format is defined as follows:
+ * The binary command format is defined using the following elements:
  * - 1 byte	command type (from enum user_settings_protocol_command_type)
  * - 2 byte	setting key
- * - 1 byte	value len key
+ * - 1 byte	value length
  * - len bytes	value
  *
- * USPC_LIST, USPC_LIST_FULL, USPC_RESTORE must only provide the first byte
- * USPC_GET, USPC_GET_FULL must provide the first byte and the setting key
- * USPC_SET, USPC_SET_DEFAULT must provide the first byte, the setting key, the length and the value
+ * For each supported command type the following fields must be provided:
+ * - USPC_LIST, USPC_LIST_FULL, USPC_RESTORE must only provide the command type
+ * - USPC_GET, USPC_GET_FULL must provide the command type and the setting key
+ * - USPC_SET, USPC_SET_DEFAULT must provide the command type, the setting key, the length and the
+ *   value
+ * - USPC_LIST_SOME, USPC_LIST_SOME_FULL must provide the command type, the value length and the
+ *   value as a list of 2 byte setting keys
  *
  * @param[in] buffer The buffer to decode
  * @param[in] len The length of the buffer
  * @param[out] command The decoded command
  *
- * @retval 0 on success
+ * @retval Positive number - The number of bytes decoded
  * @retval -EPROTO if decoding failed
  * @retval -ENOTSUP if the command is not supported
  */

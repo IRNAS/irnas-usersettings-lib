@@ -20,6 +20,7 @@
  * @param[in] usp_executor The executor
  * @param[in] id The setting ID
  * @param[in] encode the encode function to use
+ * @param[in] user_data The user data to pass to the write_response function
  *
  * @retval 0 on success
  * @retval -ENOENT setting ID does not exists
@@ -67,6 +68,7 @@ static int prv_exec_get_full(struct usp_executor *usp_executor, uint16_t id, voi
  *
  * @param[in] usp_executor The executor
  * @param[in] encode The encode function to use
+ * @param[in] user_data The user data to pass to the write_response function
  *
  * @retval 0 on success
  * @retval -ENOMEM if the resp_buffer is to small to fit the encoded response
@@ -162,6 +164,62 @@ static int prv_exec_restore(void)
 	return 0;
 }
 
+/**
+ * @brief Execute a LIST_SOME command
+ *
+ * Iterate over all setting ID's provided, encode them and write each one as a response.
+ *
+ * @param[in] usp_executor The executor
+ * @param[in] num_ids The number of setting ID's provided
+ * @param[in] ids The setting ID's provided
+ * @param[in] user_data The user data to pass to the write_response function
+ *
+ * @retval 0 on success
+ * @retval -ENOENT setting ID does not exists
+ * @retval -ENOMEM if the resp_buffer is to small to fit the encoded response
+ * @retval -EIO if writing the response failed
+ */
+static int prv_exec_list_some(struct usp_executor *usp_executor, uint8_t num_ids, uint16_t *ids,
+			      void *user_data)
+{
+	for (int i = 0; i < num_ids; i++) {
+		int ret =
+			prv_exec_get_common(usp_executor, ids[i], usp_executor->encode, user_data);
+		if (ret < 0) {
+			return ret;
+		}
+	}
+	return 0;
+}
+
+/**
+ * @brief Execute a LIST_SOME_FULL command
+ *
+ * Iterate over all setting ID's provided, encode them and write each one as a response.
+ *
+ * @param[in] usp_executor The executor
+ * @param[in] num_ids The number of setting ID's provided
+ * @param[in] ids The setting ID's provided
+ * @param[in] user_data The user data to pass to the write_response function
+ *
+ * @retval 0 on success
+ * @retval -ENOENT setting ID does not exists
+ * @retval -ENOMEM if the resp_buffer is to small to fit the encoded response
+ * @retval -EIO if writing the response failed
+ */
+static int prv_exec_list_some_full(struct usp_executor *usp_executor, uint8_t num_ids,
+				   uint16_t *ids, void *user_data)
+{
+	for (int i = 0; i < num_ids; i++) {
+		int ret = prv_exec_get_common(usp_executor, ids[i], usp_executor->encode_full,
+					      user_data);
+		if (ret < 0) {
+			return ret;
+		}
+	}
+	return 0;
+}
+
 /* will this return the number of bytes parsed? negative error code otherwise? This way you can have
  * a buffer holding multiple commands in a row and this will always parse 1 command ant tell teh
  * user where it finished  */
@@ -198,6 +256,14 @@ int usp_executor_parse_and_execute(struct usp_executor *usp_executor, uint8_t *b
 	}
 	case USPC_RESTORE: {
 		return prv_exec_restore();
+	}
+	case USPC_LIST_SOME: {
+		return prv_exec_list_some(usp_executor, cmd.value_len / 2, (uint16_t *)cmd.value,
+					  user_data);
+	}
+	case USPC_LIST_SOME_FULL: {
+		return prv_exec_list_some_full(usp_executor, cmd.value_len / 2,
+					       (uint16_t *)cmd.value, user_data);
 	}
 
 	default: {

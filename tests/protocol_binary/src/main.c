@@ -348,3 +348,9 @@ ZTEST(protocol_binary_suite, test_user_setting_encode_correct_bytes_full)
 			  "default value should be here");
 	zassert_equal(buffer[13], us.max_size, "max size should be here");
 }
+
+/* TODO: test list_some commands */
+/* TODO: test that the number of bytes decoded is correct for each command */
+
+/* TODO: add multi-command support to executor. Since decode returns number of bytes decoded, we
+ * could have a loop and move that number of bytes in the buffer and decode+execute a new command */
