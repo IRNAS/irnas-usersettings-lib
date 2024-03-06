@@ -591,7 +591,6 @@ void user_settings_set_on_change_cb_with_id(uint16_t id, user_settings_on_change
 	s->on_change_cb = on_change_cb;
 }
 
-/* this is only false if no default exists and no value was set */
 bool user_settings_is_set_with_key(char *key)
 {
 	__ASSERT(prv_is_loaded, LOAD_ASSERT_TEXT);
@@ -602,7 +601,6 @@ bool user_settings_is_set_with_key(char *key)
 	return s->is_set;
 }
 
-/* this is only false if no default exists and no value was set */
 bool user_settings_is_set_with_id(uint16_t id)
 {
 	__ASSERT(prv_is_loaded, LOAD_ASSERT_TEXT);
