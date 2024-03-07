@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Added
+
+-   user_settings_is_custom_set_with_key and user_settings_is_custom_set_with_id functions.
+
 ## [1.6.0] - 2023-05-12
 
 ### Added
