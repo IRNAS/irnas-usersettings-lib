@@ -339,8 +339,7 @@ void user_settings_set_on_change_cb_with_id(uint16_t id, user_settings_on_change
 /**
  * @brief Check if a setting has its value set
  *
- * This is only false if no default value for this setting exists and if
- * no value was ever set.
+ * This is false if a default value exists or if no value was ever set.
  *
  * This will assert if no setting with the provided key exists.
  * If the key input for this function is unknown to the application (i.e. parsed from user), then
@@ -348,16 +347,15 @@ void user_settings_set_on_change_cb_with_id(uint16_t id, user_settings_on_change
  *
  * @param[in] key The key of the setting to check
  *
- * @return true If the setting has a value
- * @return false If the setting has no value
+ * @return true If the setting has a value set by the user
+ * @return false If the setting has a default value or no value
  */
 bool user_settings_is_set_with_key(char *key);
 
 /**
  * @brief Check if a setting has its value set
  *
- * This is only false of no default value for this setting exists and if
- * no value was ever set.
+ * This is false if a default value exists or if no value was ever set.
  *
  * This will assert if no setting with the provided ID exists.
  * If the ID input for this function is unknown to the application (i.e. parsed from user), then
@@ -365,10 +363,48 @@ bool user_settings_is_set_with_key(char *key);
  *
  * @param[in] id The ID of the setting to check
  *
- * @return true If the setting has a value
- * @return false If the setting has no value
+ * @return true If the setting has a value set by the user
+ * @return false If the setting has a default value or no value
  */
 bool user_settings_is_set_with_id(uint16_t id);
+
+/**
+ * @brief Check if a setting has a custom value set
+ *
+ * This is false if no value was ever set and the default value exists, or the custom setting
+ * matches the default value.
+ * This is true if the setting has a value set by the user and the value is different from the
+ * default.
+ *
+ * This will assert if no setting with the provided key exists. If the key input for this function
+ * is unknown to the application (i.e. parsed from user), then it should first be checked with
+ * user_settings_exists_with_key().
+ *
+ * @param[in] key The key of the setting to check
+ *
+ * @return true If the setting has a value set by the user that does not match the default value
+ * @return false If the setting has a default or no value or the custom value matches the default
+ */
+bool user_settings_is_custom_set_with_key(char *key);
+
+/**
+ * @brief Check if a setting has has a custom value set
+ *
+ * This is false if no value was ever set and the default value exists, or the custom setting
+ * matches the default value.
+ * This is true if the setting has a value set by the user and the value is different from the
+ * default.
+ *
+ * This will assert if no setting with the provided ID exists.
+ * If the ID input for this function is unknown to the application (i.e. parsed from user), then
+ * it should first be checked with user_settings_exists_with_id().
+ *
+ * @param[in] id The ID of the setting to check
+ *
+ * @return true If the setting has a value set by the user that does not match the default value
+ * @return false If the setting has a default or no value or the custom value matches the default
+ */
+bool user_settings_is_custom_set_with_id(uint16_t id);
 
 /**
  * @brief Check if a setting has its default value set
