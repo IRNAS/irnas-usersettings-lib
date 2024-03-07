@@ -409,6 +409,26 @@ static int prv_user_settings_set(struct user_setting *s, void *data, size_t len)
 	return 0;
 }
 
+bool prv_check_if_custom_is_set(struct user_setting *setting)
+{
+	__ASSERT(prv_is_loaded, LOAD_ASSERT_TEXT);
+
+	/* If custom setting was not yet set */
+	if (!setting->is_set) {
+		return false;
+	}
+
+	/* If custom setting is set but matches default (either user input or restored default) */
+	if (setting->is_set &&
+	    memcmp(setting->data, setting->default_data, setting->data_len) == 0) {
+		LOG_DBG("Same value as default.");
+		return false;
+	}
+
+	/* Otherwise return true */
+	return true;
+}
+
 static void prv_settings_restore(struct user_setting *setting)
 {
 	/* if value in not set, do nothing */
@@ -424,8 +444,8 @@ void user_settings_restore_defaults(void)
 {
 	__ASSERT(prv_is_loaded, LOAD_ASSERT_TEXT);
 
-	/* by using prv_user_settings_set on each setting, the values will get stored and the
-	 * on_change callbacks will be called correctly
+	/* by using prv_user_settings_set on each setting, the values will get stored and
+	 * the on_change callbacks will be called correctly
 	 */
 
 	user_settings_list_iter_start();
@@ -609,6 +629,26 @@ bool user_settings_is_set_with_id(uint16_t id)
 	__ASSERT(s, "Id does not exists: %d", id);
 
 	return s->is_set;
+}
+
+bool user_settings_is_custom_set_with_key(char *key)
+{
+	__ASSERT(prv_is_loaded, LOAD_ASSERT_TEXT);
+
+	struct user_setting *s = user_settings_list_get_by_key(key);
+	__ASSERT(s, "Key does not exists: %s", key);
+
+	return prv_check_if_custom_is_set(s);
+}
+
+bool user_settings_is_custom_set_with_id(uint16_t id)
+{
+	__ASSERT(prv_is_loaded, LOAD_ASSERT_TEXT);
+
+	struct user_setting *s = user_settings_list_get_by_id(id);
+	__ASSERT(s, "Id does not exists: %d", id);
+
+	return prv_check_if_custom_is_set(s);
 }
 
 bool user_settings_has_default_with_key(char *key)

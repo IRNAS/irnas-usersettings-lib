@@ -446,6 +446,95 @@ ZTEST(user_settings_suite, test_settings_user_settings_any_changed)
 	c = user_settings_any_changed();
 	zassert_false(c, "No setting should be marked changed");
 }
+
+ZTEST(user_settings_suite, test_settings_is_custom_set)
+{
+	bool c;
+	int err;
+
+	/* STRING */
+	/* Restore default */
+	err = user_settings_restore_default_with_id(4);
+	zassert_ok(err, "Restoring default should not error");
+
+	/* Set value matching default */
+	char str2[] = "banana";
+	user_settings_set_with_id(4, &str2, strlen(str2) + 1);
+
+	c = user_settings_is_custom_set_with_id(4);
+	zassert_false(c, "Setting matches default, return false");
+
+	/* Set another value */
+	char str[] = "kiwi";
+	user_settings_set_with_id(4, &str, strlen(str) + 1);
+
+	/* Custom value should return true */
+	c = user_settings_is_custom_set_with_id(4);
+	zassert_true(c, "Setting is set, return true");
+
+	/* BOOL */
+	/* Restore its default value */
+	err = user_settings_restore_default_with_id(1);
+	zassert_ok(err, "Restoring default should not error");
+
+	/* Set value matching default */
+	bool val = false;
+	user_settings_set_with_id(1, &val, 1);
+
+	/* Value matches default */
+	c = user_settings_is_custom_set_with_id(1);
+	zassert_false(c, "Setting is set, return true");
+
+	/* Set a new value */
+	val = true;
+	user_settings_set_with_id(1, &val, 1);
+
+	/* Custom value is set */
+	c = user_settings_is_custom_set_with_id(1);
+	zassert_true(c, "Setting is set, return true");
+
+	/* UINT32_T */
+	/* Restore default value */
+	err = user_settings_restore_default_with_id(2);
+	zassert_ok(err, "Restoring default should not error");
+
+	/* Set custom value matching default */
+	uint32_t val2 = 69;
+	user_settings_set_with_id(2, &val2, 4);
+
+	/* Value matches default */
+	c = user_settings_is_custom_set_with_id(2);
+	zassert_false(c, "Setting is set to same value as default, return false");
+
+	/* Set another value */
+	val2 = 0;
+	user_settings_set_with_id(2, &val2, 4);
+
+	/* Custom value is set */
+	c = user_settings_is_custom_set_with_id(2);
+	zassert_true(c, "Setting is set, return true");
+
+	/* INT8_T */
+	/* Restore default value */
+	err = user_settings_restore_default_with_id(3);
+	zassert_ok(err, "Restoring default should not error");
+
+	/* Set value matching default */
+	int8_t val3 = 0;
+	user_settings_set_with_id(3, &val3, 1);
+
+	/* Value matches default */
+	c = user_settings_is_custom_set_with_id(3);
+	zassert_false(c, "Setting is set to same value as default, return false");
+
+	/* Set another value */
+	val3 = 123;
+	user_settings_set_with_id(3, &val3, 1);
+
+	/* Custom value is set */
+	c = user_settings_is_custom_set_with_id(3);
+	zassert_true(c, "Setting is set, return true");
+}
 /*
  * NOT TESTED:
  *
