@@ -1,0 +1,13 @@
+samples:
+  - name: basic
+    west-boards:
+      - native_posix
+  - name: binary_encoding
+    west-boards:
+      - native_posix
+  - name: bluetooth_service
+    west-boards:
+      - nrf52840dk_nrf52840
+  - name: callbacks
+    west-boards:
+      - native_posix

@@ -8,19 +8,16 @@ tags.lock
 tags.temp
 .vscode
 
-# east
-success.txt
-
 # Zepyhr / nRF5 SDK stuff
 compile_commands.json
 .cache
 **/build/*
 build/*
 build*
+!.github/workflows/build.yaml
 generated
 twister-out*
 release/
-flash.bin
 
 # Python stuff
 __pycache__
@@ -35,7 +32,6 @@ develop-eggs/
 dist/
 eggs/
 .eggs/
-lib/
 lib64/
 parts/
 sdist/
@@ -47,3 +43,21 @@ share/python-wheels/
 
 #envrc
 .envrc
+
+# Renode and various other reports
+*.html
+*.xml
+logs/*
+snapshots
+
+# Codechecker stuff
+codechecker-diffs/*
+
+# Graphite stuff
+.graphite*
+
+# east
+success.txt
+
+# posix samples that use flash storage sometimes create this file
+flash.bin
