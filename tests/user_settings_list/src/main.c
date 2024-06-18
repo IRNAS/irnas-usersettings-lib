@@ -209,9 +209,9 @@ ZTEST(user_settings_list_suite, test_list_find_by_key)
 	zassert_equal(us->id, 2, "Id of item is wrong");
 	zassert_equal(strcmp("t2", us->key), 0, "Key of item is wrong");
 
-	/* try to get non-existant item */
+	/* try to get non-existent item */
 	us = user_settings_list_get_by_key("t0");
-	zassert_is_null(us, "NULL should be returned when a non-existant setting is got");
+	zassert_is_null(us, "NULL should be returned when a non-existent setting is got");
 }
 
 ZTEST(user_settings_list_suite, test_list_find_by_id)
@@ -241,7 +241,7 @@ ZTEST(user_settings_list_suite, test_list_find_by_id)
 	zassert_equal(us->id, 2, "Id of item is wrong");
 	zassert_equal(strcmp("t2", us->key), 0, "Key of item is wrong");
 
-	/* try to get non-existant item */
+	/* try to get non-existent item */
 	us = user_settings_list_get_by_id(0);
-	zassert_is_null(us, "NULL should be returned when a non-existant setting is got");
+	zassert_is_null(us, "NULL should be returned when a non-existent setting is got");
 }

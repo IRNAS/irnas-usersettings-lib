@@ -1,3 +1,2 @@
-
 zephyr_include_directories(.)
 zephyr_library_sources(user_settings_protocol_executor.c)

@@ -1,6 +1,6 @@
 /** @file bt_uss.h
  *
- * @brief Blutooth service for user settings
+ * @brief Bluetooth service for user settings
  *
  * UUID of service: 8467a290-5ac0-4856-b3bc-85ae11a5bd81
  * UUID of write+notify characteristic: 8467a291-5ac0-4856-b3bc-85ae11a5bd81

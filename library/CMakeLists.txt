@@ -1,4 +1,3 @@
-
 zephyr_include_directories(include)
 
 zephyr_library()

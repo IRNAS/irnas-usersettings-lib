@@ -132,7 +132,7 @@ int user_settings_protocol_binary_decode_command(uint8_t *buffer, size_t len,
 int user_settings_protocol_binary_encode(struct user_setting *user_setting, uint8_t *buffer,
 					 size_t len)
 {
-	__ASSERT(user_setting, "Valid user seting must be provided");
+	__ASSERT(user_setting, "Valid user setting must be provided");
 	__ASSERT(buffer, "buffer must be provided");
 
 	if (len < prv_encode_required_bytes(user_setting)) {
@@ -170,11 +170,11 @@ int user_settings_protocol_binary_encode(struct user_setting *user_setting, uint
 int user_settings_protocol_binary_encode_full(struct user_setting *user_setting, uint8_t *buffer,
 					      size_t len)
 {
-	__ASSERT(user_setting, "Valid user seting must be provided");
+	__ASSERT(user_setting, "Valid user setting must be provided");
 	__ASSERT(buffer, "buffer must be provided");
 
 	/* Use above encode and add:
-	 * 1 byte default length (if 0 no defalt value is set)
+	 * 1 byte default length (if 0 no default value is set)
 	 * length bytes default value
 	 * 1 byte max_len
 	 */

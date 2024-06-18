@@ -131,7 +131,7 @@ struct user_setting *user_settings_list_add_variable_size(uint16_t id, const cha
 struct user_setting *user_settings_list_get_by_key(const char *key)
 {
 	struct user_setting *us;
-	SYS_SLIST_FOR_EACH_CONTAINER (&prv_user_settings_list, us, list_node) {
+	SYS_SLIST_FOR_EACH_CONTAINER(&prv_user_settings_list, us, list_node) {
 		if (strcmp(key, us->key) == 0) {
 			return us;
 		}
@@ -142,7 +142,7 @@ struct user_setting *user_settings_list_get_by_key(const char *key)
 struct user_setting *user_settings_list_get_by_id(const uint16_t id)
 {
 	struct user_setting *us;
-	SYS_SLIST_FOR_EACH_CONTAINER (&prv_user_settings_list, us, list_node) {
+	SYS_SLIST_FOR_EACH_CONTAINER(&prv_user_settings_list, us, list_node) {
 		if (id == us->id) {
 			return us;
 		}
@@ -177,7 +177,7 @@ void user_settings_list_free(void)
 	/* free data, default_data, setting struct, remove from list */
 
 	struct user_setting *us;
-	SYS_SLIST_FOR_EACH_CONTAINER (&prv_user_settings_list, us, list_node) {
+	SYS_SLIST_FOR_EACH_CONTAINER(&prv_user_settings_list, us, list_node) {
 		k_heap_free(&prv_heap, us->data);
 		k_heap_free(&prv_heap, us->default_data);
 		k_heap_free(&prv_heap, us);

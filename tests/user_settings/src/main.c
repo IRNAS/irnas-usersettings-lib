@@ -486,5 +486,5 @@ ZTEST(user_settings_suite, test_settings_user_settings_any_changed)
 /*
  * NOT TESTED:
  *
- * - assertions when getting/setting nonexistant settings
+ * - assertions when getting/setting nonexistent settings
  */

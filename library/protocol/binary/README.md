@@ -1,7 +1,7 @@
 # Binary Protocol
 
-The binary protocol is a byte-based encoding of the user settings protocol.
-All numbers are encoded as little endian.
+The binary protocol is a byte-based encoding of the user settings protocol. All numbers are encoded
+as little endian.
 
 The binary protocol supports the following commands:
 
@@ -15,11 +15,12 @@ The binary protocol supports the following commands:
 
 ## GET (0x01)
 
-A valid get command is encoded as [1 byte command (0x01), 2 byte setting ID].
-For example, to get the settings with id 13, the command is `010D00`.
+A valid get command is encoded as [1 byte command (0x01), 2 byte setting ID]. For example, to get
+the settings with id 13, the command is `010D00`.
 
-A response to a valid get command is:
-[2 byte setting id, setting key as a null terminated string, 1 byte [setting type](../../include/user_settings_types.h), 1 byte value length (LEN), LEN bytes value].
+A response to a valid get command is: [2 byte setting id, setting key as a null terminated string, 1
+byte [setting type](../../include/user_settings_types.h), 1 byte value length (LEN), LEN bytes
+value].
 
 If the value of the settings is not set, LEN will be zero and no value is encoded.
 
@@ -30,18 +31,24 @@ Some Examples:
 
 ## GET FULL (0x02)
 
-A valid get full command is encoded as [1 byte command (0x02), 2 byte setting ID].
-For example, to get the settings with id 13, the command is `020D00`.
+A valid get full command is encoded as [1 byte command (0x02), 2 byte setting ID]. For example, to
+get the settings with id 13, the command is `020D00`.
 
-A response to a valid get command is the same as for GET with the following additional fields: [..., 1 byte default length (DEFAULT_LEN), DEFAULT_LEN bytes default value, 1 byte maximum setting length].
+A response to a valid get command is the same as for GET with the following additional fields: [...,
+1 byte default length (DEFAULT_LEN), DEFAULT_LEN bytes default value, 1 byte maximum setting
+length].
 
-If the default value of the settings is not set, DEFAULT_LEN will be zero and no default value is encoded.
+If the default value of the settings is not set, DEFAULT_LEN will be zero and no default value is
+encoded.
 
 Some Examples:
 
-- a u8 setting with ID 7 , key `s7`, value 7, default value 15 and max length 1 is encoded as: `0700733700010107010F01`
-- a u8 setting with ID 7 , key `s7`, value 7, no default value and max length 1 is encoded as: `07007337000101070001`
-- a u8 setting with ID 7 , key `s7`, no value, no default value and max length 1 is encoded as: `070073370001000001`
+- a u8 setting with ID 7 , key `s7`, value 7, default value 15 and max length 1 is encoded as:
+  `0700733700010107010F01`
+- a u8 setting with ID 7 , key `s7`, value 7, no default value and max length 1 is encoded as:
+  `07007337000101070001`
+- a u8 setting with ID 7 , key `s7`, no value, no default value and max length 1 is encoded as:
+  `070073370001000001`
 
 ## LIST (0x03)
 
@@ -57,36 +64,42 @@ Each setting is encoded separately as specified in the GET FULL command.
 
 ## SET (0x05)
 
-A valid set command is encoded as [1 byte command (0x05), 2 byte setting ID, 1 byte value length, LEN bytes value].
-For example, to set setting with id 13 to the value 7 (the setting is type u8), the command is `050D000107`.
+A valid set command is encoded as [1 byte command (0x05), 2 byte setting ID, 1 byte value length,
+LEN bytes value]. For example, to set setting with id 13 to the value 7 (the setting is type u8),
+the command is `050D000107`.
 
 ## SET DEFAULT (0x06)
 
-A valid set default command is encoded as [1 byte command (0x06), 2 byte setting ID, 1 byte default value length, LEN bytes default value].
-For example, to set the default value of setting with id 13 to 10 (the setting is type u8), the command is `060D00010A`.
+A valid set default command is encoded as [1 byte command (0x06), 2 byte setting ID, 1 byte default
+value length, LEN bytes default value]. For example, to set the default value of setting with id 13
+to 10 (the setting is type u8), the command is `060D00010A`.
 
 ## RESTORE (0x07)
 
 A valid restore command is encoded as `07`.
 
-TODO: maybe list some and list some full should be removed? We should implement support for multiple commands in a single buffer in the executor instead.
+TODO: maybe list some and list some full should be removed? We should implement support for multiple
+commands in a single buffer in the executor instead.
 
 ## LIST SOME (0x08)
 
-A valid list some command is encoded as [1 byte command (0x08), 1 byte number of settings (N), N * 2 byte setting ID].
+A valid list some command is encoded as [1 byte command (0x08), 1 byte number of settings (N), N * 2
+byte setting ID].
 
 Each setting is encoded separately as specified in the GET command.
 
 ## LIST SOME FULL (0x09)
 
-A valid list some full command is encoded as [1 byte command (0x09), 1 byte number of settings (N), N * 2 byte setting ID].
+A valid list some full command is encoded as [1 byte command (0x09), 1 byte number of settings (N),
+N * 2 byte setting ID].
 
 Each setting is encoded separately as specified in the GET FULL command.
 
 ## Additional examples
 
-The following list gives a settings description (in text), its short (GET) and full (GET FULL) encoding.
-Bellow that are the SET and SET_DEFAULT commands required to set the specific values of that setting.
+The following list gives a settings description (in text), its short (GET) and full (GET FULL)
+encoding. Bellow that are the SET and SET_DEFAULT commands required to set the specific values of
+that setting.
 
 ```text
 SETTING:     id: 1, key: "enabled", value: /, default: / (TYPE_BOOL)

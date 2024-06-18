@@ -22,4 +22,5 @@ target_include_directories(app PRIVATE ${LIB_DIR}/user_settings)
 
 target_include_directories(app PRIVATE ${LIB_DIR}/protocol/binary)
 target_include_directories(app PRIVATE ${LIB_DIR}/protocol)
-target_sources(app PRIVATE ${LIB_DIR}/protocol/binary/user_settings_protocol_binary.c)
+target_sources(
+  app PRIVATE ${LIB_DIR}/protocol/binary/user_settings_protocol_binary.c)

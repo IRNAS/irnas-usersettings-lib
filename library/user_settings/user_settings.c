@@ -22,8 +22,8 @@ LOG_MODULE_REGISTER(user_settings, CONFIG_USER_SETTINGS_LOG_LEVEL);
 #define INIT_ASSERT_TEXT "user_settings_init should be called before this function"
 #define LOAD_ASSERT_TEXT "user_settings_load should be called before this function"
 
-#define USER_SETTINGS_PREFIX		  "user"
-#define USER_SETTINGS_DEFAULT_PREFIX	  "user_default"
+#define USER_SETTINGS_PREFIX              "user"
+#define USER_SETTINGS_DEFAULT_PREFIX      "user_default"
 #define USER_SETTINGS_CHANGED_FLAG_PREFIX "user_changed"
 
 /* External callback */

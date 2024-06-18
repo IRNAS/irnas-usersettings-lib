@@ -228,7 +228,7 @@ int user_settings_set_with_id(uint16_t id, void *data, size_t len);
  * If no value is set but a default value is set, return the default value.
  * If no value and no default value are set, return NULL.
  *
- * The out parameter @p len is usefull for the string and bytes setting types,
+ * The out parameter @p len is useful for the string and bytes setting types,
  * when a consumer of the setting value might not know the length of the array.
  *
  * Will assert of a setting with this key does not exist.
@@ -265,7 +265,7 @@ void *user_settings_get_with_id(uint16_t id, size_t *len);
  *
  * If no default value is set, return NULL.
  *
- * The out parameter @p len is usefull for the string and bytes setting types,
+ * The out parameter @p len is useful for the string and bytes setting types,
  * when a consumer of the setting value might not know the length of the array.
  *
  * Will assert of a setting with this key does not exist.
@@ -502,7 +502,7 @@ bool user_settings_iter_next(char **key, uint16_t *id);
 /**
  * @brief Get next settings ID and KEY in the iteration
  *
- * Only returns settings wil a set changed flag.
+ * Only returns settings with a set changed flag.
  *
  * @param[out] key The key of the next changed settings.
  * @param[out] id The ID of the next changed settings.

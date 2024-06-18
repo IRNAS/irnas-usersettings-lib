@@ -12,6 +12,4 @@ project(user-settings-sample-callbacks)
 zephyr_compile_options(-fdiagnostics-color=always)
 
 zephyr_include_directories(src)
-target_sources(app PRIVATE
-  src/main.c
-)
+target_sources(app PRIVATE src/main.c)

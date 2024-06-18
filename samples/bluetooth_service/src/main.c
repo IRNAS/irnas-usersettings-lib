@@ -25,7 +25,7 @@ static struct bt_conn *prv_current_conn;
  * This is called when a central device connects (or fails to connect)
  * to this device.
  *
- * @param[in] conn The conenction object
+ * @param[in] conn The connection object
  * @param[in] err  BT_HCI_ERR_* error code from zephyr/bluetooth/hci_err.h
  */
 static void connected(struct bt_conn *conn, uint8_t err)
@@ -48,9 +48,9 @@ static void connected(struct bt_conn *conn, uint8_t err)
 /**
  * @brief Bluetooth disconnected callback
  *
- * This is called when a central device disconnects or we discconect from it.
+ * This is called when a central device disconnects or we disconnect from it.
  *
- * @param[in] conn The conenction object
+ * @param[in] conn The connection object
  * @param[in] reason BT_HCI_ERR_* error code from zephyr/bluetooth/hci_err.h
  */
 static void disconnected(struct bt_conn *conn, uint8_t reason)

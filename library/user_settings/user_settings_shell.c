@@ -18,9 +18,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-#define FMT_SETTING(fmt)		     "id: %d, key: \"%s\", value: " fmt ", default: " fmt
-#define FMT_SETTING_NO_VALUE(fmt)	     "id: %d, key: \"%s\", value: /, default: " fmt
-#define FMT_SETTING_NO_DEFAULT(fmt)	     "id: %d, key: \"%s\", value: " fmt ", default: /"
+#define FMT_SETTING(fmt)                     "id: %d, key: \"%s\", value: " fmt ", default: " fmt
+#define FMT_SETTING_NO_VALUE(fmt)            "id: %d, key: \"%s\", value: /, default: " fmt
+#define FMT_SETTING_NO_DEFAULT(fmt)          "id: %d, key: \"%s\", value: " fmt ", default: /"
 #define FMT_SETTING_NO_VALUE_NO_DEFAULT(fmt) "id: %d, key: \"%s\", value: /, default: /"
 
 #define SETTING_PRINT(setting, fmt, cast)                                                          \
