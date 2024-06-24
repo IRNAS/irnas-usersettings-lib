@@ -12,7 +12,7 @@ env:
 jobs:
   twister-build:
     name: "Run Unit Tests"
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     defaults:
       run:
         shell: bash
@@ -153,7 +153,7 @@ jobs:
     name: "Publish Coverage Report"
     # NOTE: This action is not compatible with "workflow_dispatch" event, so
     # it's not possible to run it manually.
-    runs-on: self-hosted
+    runs-on: ubuntu-20.04
     permissions:
       issues: write
       pull-requests: write
