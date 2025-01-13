@@ -11,3 +11,6 @@ samples:
   - name: callbacks
     west-boards:
       - native_sim
+  - name: validation
+    west-boards:
+      - native_sim

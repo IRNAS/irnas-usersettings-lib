@@ -96,20 +96,23 @@ codechecker-build:
 	east build -b native_sim samples/binary_encoding -d build_binary_encoding
 	east build -b nrf52840dk_nrf52840 samples/bluetooth_service -d build_bluetooth_service
 	east build -b native_sim samples/callbacks -d build_callbacks
+	east build -b native_sim samples/validation -d build_validation
 
 codechecker-check:
 	east codechecker check -d build_basic
 	east codechecker check -d build_binary_encoding
 	east codechecker check -d build_bluetooth_service
 	east codechecker check -d build_callbacks
+	east codechecker check -d build_validation
 
 codechecker-store:
 	east codechecker store -d build_basic
 	east codechecker store -d build_binary_encoding
 	east codechecker store -d build_bluetooth_service
 	east codechecker store -d build_callbacks
+	east codechecker store -d build_validation
 
 # Specify build folders that you want to analyze to the script as positional
 # arguments, open it to learn more.
 codechecker-diff:
-	scripts/codechecker-diff.sh build_basic build_binary_encoding build_bluetooth_service build_callbacks
+	scripts/codechecker-diff.sh build_basic build_binary_encoding build_bluetooth_service build_callbacks build_validation
