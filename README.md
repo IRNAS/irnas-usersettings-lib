@@ -81,6 +81,20 @@ When you change the value of the setting, flag `has_changed_recently` is set. To
 call one of the functions: `user_settings_clear_changed_with_key(char *key)`,
 `user_settings_clear_changed_with_id(uint16_t id)` or `user_settings_clear_changed(void)`.
 
+## Validation
+
+Each setting can have an attached validation callback. The callback is called whenever the setting
+is changed, and it can reject the change by returning `false`.
+
+To attach a validation callback to a setting, call one of the
+`user_settings_set_validate_cb_with_*()` functions.
+
+See the [callbacks sample](./samples/callbacks/) for an example of validation.
+
+For common validation cases, there are helper macros available in
+`user_settings_validation_helpers.h`. To see them in action, see the
+[validation sample](./samples/validation/).
+
 ## Iterators
 
 You can iterate trough existing settings using iterator functions. Call `user_settings_iter_start()`
