@@ -201,6 +201,7 @@ bool user_settings_exists_with_id(uint16_t id);
  * @retval 0 On success
  * @retval -ENOMEM If the new value is larger than the max_size
  * @retval -EIO if the setting value could not be stored to NVS
+ * @retval -EINVAL if the value is not valid (validation callback returned false)
  */
 int user_settings_set_with_key(char *key, void *data, size_t len);
 
@@ -340,6 +341,35 @@ void user_settings_set_on_change_cb_with_key(char *key, user_settings_on_change_
  * notification.
  */
 void user_settings_set_on_change_cb_with_id(uint16_t id, user_settings_on_change_t on_change_cb);
+
+/**
+ * @brief Set the validate callback for changes to a specific setting
+ *
+ * The provided function is called when the provided setting is updated to a new value.
+ * If the callback returns false, the setting is not updated.
+ *
+ * This will assert if no setting with the provided key exists.
+ * If the key input for this function is unknown to the application (i.e. parsed from user), then
+ * it should first be checked with user_settings_exists_with_key().
+ *
+ * @param[in] key The key of the setting to set the callback on
+ * @param[in] validate_cb The callback function. NULL to disable validation.
+ */
+void user_settings_set_validate_cb_with_key(char *key, user_settings_validate_t validate_cb);
+
+/**
+ * @brief Set the validate callback for changes to a specific setting
+ *
+ * This behaves the same as user_settings_set_validate_cb_with_key()
+ *
+ * This will assert if no setting with the provided ID exists.
+ * If the ID input for this function is unknown to the application (i.e. parsed from user), then
+ * it should first be checked with user_settings_exists_with_id().
+ *
+ * @param[in] id The ID of the setting to set the callback on
+ * @param[in] validate_cb The callback function. NULL to disable validation.
+ */
+void user_settings_set_validate_cb_with_id(uint16_t id, user_settings_validate_t validate_cb);
 
 /**
  * @brief Check if a setting has its value set

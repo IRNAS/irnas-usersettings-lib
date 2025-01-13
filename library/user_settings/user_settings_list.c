@@ -87,6 +87,7 @@ struct user_setting *prv_user_settings_list_add(uint16_t id, const char *key,
 	us->default_is_set = 0;
 	us->has_changed_recently = 0;
 	us->on_change_cb = NULL;
+	us->validate_cb = NULL;
 
 	/* allocate space for setting value */
 	mem = k_heap_aligned_alloc(&prv_heap, 8, size, K_NO_WAIT);
