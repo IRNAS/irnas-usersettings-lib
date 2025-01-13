@@ -107,11 +107,11 @@ static int prv_value_set_cb(const char *key, size_t len, settings_read_cb read_c
 	LOG_DBG("Setting %s was read", setting->key);
 
 	/* Notify on change */
-	if (prv_global_on_change_cb) {
+	if (prv_global_on_change_cb && prv_is_loaded) {
 		prv_global_on_change_cb(setting->id, setting->key);
 	}
 
-	if (setting->on_change_cb) {
+	if (setting->on_change_cb && prv_is_loaded) {
 		setting->on_change_cb(setting->id, setting->key);
 	}
 
@@ -280,6 +280,15 @@ static int prv_user_settings_set_default(struct user_setting *s, void *data, siz
 		return -ENOMEM;
 	}
 
+	/* Validate */
+	if (s->validate_cb) {
+		bool ok = s->validate_cb(s->id, s->key, data, len);
+		if (!ok) {
+			LOG_ERR("Validation failed for setting %s", s->key);
+			return -EINVAL;
+		}
+	}
+
 	/* Use settings_runtime_set() so that prv_default_set_cb gets called, which will
 	 * set the setting default value in the settings list.
 	 * It will also set s->default_is_set
@@ -380,6 +389,15 @@ static int prv_user_settings_set(struct user_setting *s, void *data, size_t len)
 	if (memcmp(s->data, data, len) == 0 && len == s->data_len) {
 		LOG_DBG("Setting to same value.");
 		return 0;
+	}
+
+	/* Validate */
+	if (s->validate_cb) {
+		bool ok = s->validate_cb(s->id, s->key, data, len);
+		if (!ok) {
+			LOG_ERR("Validation failed for setting %s", s->key);
+			return -EINVAL;
+		}
 	}
 
 	/* Use settings_runtime_set() so that prv_value_set_cb gets called, which will
@@ -589,6 +607,25 @@ void user_settings_set_on_change_cb_with_id(uint16_t id, user_settings_on_change
 	__ASSERT(s, "ID does not exists: %d", id);
 
 	s->on_change_cb = on_change_cb;
+}
+
+void user_settings_set_validate_cb_with_key(char *key, user_settings_validate_t validate_cb)
+{
+	__ASSERT(prv_is_inited, INIT_ASSERT_TEXT);
+
+	struct user_setting *s = user_settings_list_get_by_key(key);
+	__ASSERT(s, "Key does not exists: %s", key);
+
+	s->validate_cb = validate_cb;
+}
+void user_settings_set_validate_cb_with_id(uint16_t id, user_settings_validate_t validate_cb)
+{
+	__ASSERT(prv_is_inited, INIT_ASSERT_TEXT);
+
+	struct user_setting *s = user_settings_list_get_by_id(id);
+	__ASSERT(s, "ID does not exists: %d", id);
+
+	s->validate_cb = validate_cb;
 }
 
 /* this is only false if no default exists and no value was set */

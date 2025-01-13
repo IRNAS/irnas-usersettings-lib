@@ -1,0 +1,8 @@
+tests:
+  user_settings_vaidation.user_settings_vaidation:
+    platform_allow: native_sim
+    extra_configs:
+      # Disable fancy test, otherwise stdout parsing does not work.
+      - CONFIG_FANCY_ZTEST=n
+      - CONFIG_TEST_LOGGING_DEFAULTS=n
+      - CONFIG_ASSERT=n

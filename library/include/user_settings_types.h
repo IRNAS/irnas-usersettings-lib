@@ -29,6 +29,23 @@ extern "C" {
 typedef void (*user_settings_on_change_t)(uint32_t id, const char *key);
 
 /**
+ * @brief Callback type to validate a setting
+ *
+ * The callback is called from the same thread that updated the setting.
+ *
+ * The consumer can then validate the setting and return true if the setting is valid.
+ * If false is returned, the setting is not updated.
+ *
+ * @param[in] id The ID of the setting that was changed
+ * @param[in] key The key of the setting that was changed
+ * @param[in] data The data of the setting that was changed
+ * @param[in] len The length of the data
+ *
+ * @return true if the setting is valid, false otherwise
+ */
+typedef bool (*user_settings_validate_t)(uint32_t id, const char *key, void *data, size_t len);
+
+/**
  * @brief Type of user setting
  *
  * USER_SETTINGS_TYPE_STR should only be used for valid null terminated C strings. For arbitrary
