@@ -92,8 +92,8 @@ int user_settings_load(void);
  * for all settings and only custom setting values can then be set with user_settings_set_*()
  *
  * Will assert of a setting with this key does not exist.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @note If overwriting default values is required, set CONFIG_USER_SETTINGS_DEFAULT_OVERWRITE=y.
  * This can be used in use-cases where the default values are set form within the application, and a
@@ -116,8 +116,8 @@ int user_settings_set_default_with_key(char *key, void *data, size_t len);
  * @brief Behaves the same as user_settings_set_default_with_key()
  *
  * Will assert of a setting with this ID does not exist.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id The ID of the setting to set
  * @param[in] data The default value
@@ -191,8 +191,8 @@ bool user_settings_exists_with_id(uint16_t id);
  * For string types, @p len must include the NULL terminator (len = strlen(data) + 1).
  *
  * Will assert of a setting with this key does not exist.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key The key of the setting to set
  * @param[in] data The default value
@@ -211,8 +211,8 @@ int user_settings_set_with_key(char *key, void *data, size_t len);
  * Behaves the same as user_settings_set_with_key()
  *
  * Will assert of a setting with this ID does not exist.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id  The ID of the setting to set
  * @param[in] data The default value
@@ -233,8 +233,8 @@ int user_settings_set_with_id(uint16_t id, void *data, size_t len);
  * when a consumer of the setting value might not know the length of the array.
  *
  * Will assert of a setting with this key does not exist.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key The key of the setting to get
  * @param[out] len The length of the setting value. Can be NULL
@@ -250,8 +250,8 @@ void *user_settings_get_with_key(char *key, size_t *len);
  * See user_settings_get_with_key()
  *
  * Will assert of a setting with this ID does not exist.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id The ID of the setting to get
  * @param[out] len The length of the setting value. Can be NULL
@@ -270,8 +270,8 @@ void *user_settings_get_with_id(uint16_t id, size_t *len);
  * when a consumer of the setting value might not know the length of the array.
  *
  * Will assert of a setting with this key does not exist.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key The key of the setting to get
  * @param[out] len The length of the setting default value. Can be NULL
@@ -288,8 +288,8 @@ void *user_settings_get_default_with_key(char *key, size_t *len);
  * See user_settings_get_default_with_key()
  *
  * Will assert of a setting with this ID does not exist.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id The ID of the setting to get
  * @param[out] len The length of the setting default value. Can be NULL
@@ -318,8 +318,8 @@ void user_settings_set_global_on_change_cb(user_settings_on_change_t on_change_c
  * it is not called if the setting is updated to the same value it already has.
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key The key of the setting to set the callback on
  * @param[in] on_change_cb The callback function. NULL to disable the
@@ -333,8 +333,8 @@ void user_settings_set_on_change_cb_with_key(char *key, user_settings_on_change_
  * This behaves the same as user_settings_set_on_change_cb_with_key()
  *
  * This will assert if no setting with the provided ID exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id The ID of the setting to set the callback on
  * @param[in] on_change_cb The callback function. NULL to disable the
@@ -349,8 +349,8 @@ void user_settings_set_on_change_cb_with_id(uint16_t id, user_settings_on_change
  * If the callback returns false, the setting is not updated.
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key The key of the setting to set the callback on
  * @param[in] validate_cb The callback function. NULL to disable validation.
@@ -363,8 +363,8 @@ void user_settings_set_validate_cb_with_key(char *key, user_settings_validate_t 
  * This behaves the same as user_settings_set_validate_cb_with_key()
  *
  * This will assert if no setting with the provided ID exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id The ID of the setting to set the callback on
  * @param[in] validate_cb The callback function. NULL to disable validation.
@@ -378,8 +378,8 @@ void user_settings_set_validate_cb_with_id(uint16_t id, user_settings_validate_t
  * no value was ever set.
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key The key of the setting to check
  *
@@ -395,8 +395,8 @@ bool user_settings_is_set_with_key(char *key);
  * no value was ever set.
  *
  * This will assert if no setting with the provided ID exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id The ID of the setting to check
  *
@@ -409,8 +409,8 @@ bool user_settings_is_set_with_id(uint16_t id);
  * @brief Check if a setting has its default value set
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key The key of the setting to check
  *
@@ -423,8 +423,8 @@ bool user_settings_has_default_with_key(char *key);
  * @brief Check if a setting has its default value set
  *
  * This will assert if no setting with the provided ID exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id The ID of the setting to check
  *
@@ -437,8 +437,8 @@ bool user_settings_has_default_with_id(uint16_t id);
  * @brief Convert user settings key to an id
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key A valid user setting key
  *
@@ -450,8 +450,8 @@ uint16_t user_settings_key_to_id(char *key);
  * @brief Convert user settings id to a key
  *
  * This will assert if no setting with the provided id exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id A valid user setting id
  *
@@ -463,8 +463,8 @@ char *user_settings_id_to_key(uint16_t id);
  * @brief Get maximal length of the setting
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key A valid user setting key
  *
@@ -476,8 +476,8 @@ size_t user_settings_get_max_len_with_key(char *key);
  * @brief Get maximal length of the setting
  *
  * This will assert if no setting with the provided id exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id A valid user setting id
  *
@@ -489,8 +489,8 @@ size_t user_settings_get_max_len_with_id(uint16_t id);
  * @brief Get the type of the setting
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key A valid user setting key
  *
@@ -502,8 +502,8 @@ enum user_setting_type user_settings_get_type_with_key(char *key);
  * @brief Get the type of the setting
  *
  * This will assert if no setting with the provided id exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id A valid user setting id
  *
@@ -545,8 +545,8 @@ bool user_settings_iter_next_changed(char **key, uint16_t *id);
  * @brief Set the "has_changed_recently" flag
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key A valid user setting key
  */
@@ -556,8 +556,8 @@ void user_settings_set_changed_with_key(char *key);
  * @brief Set the "has_changed_recently" flag
  *
  * This will assert if no setting with the provided id exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] key A valid user setting id
  */
@@ -567,8 +567,8 @@ void user_settings_set_changed_with_id(uint16_t id);
  * @brief Clear "has_changed_recently" flag
  *
  * This will assert if no setting with the provided key exists.
- * If the key input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_key().
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
  *
  * @param[in] key A valid user setting key
  */
@@ -578,8 +578,8 @@ void user_settings_clear_changed_with_key(char *key);
  * @brief Clear "has_changed_recently" flag
  *
  * This will assert if no setting with the provided id exists.
- * If the ID input for this function is unknown to the application (i.e. parsed from user), then
- * it should first be checked with user_settings_exists_with_id().
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
  *
  * @param[in] id A valid user setting id
  */
