@@ -63,6 +63,19 @@ int main(void)
 	/* Load settings */
 	user_settings_load();
 
+	/* The validators can be called via the API. This can be used to validate a value without
+	 * setting it right away, or at all. */
+	uint8_t t2_ok = 25;
+	uint8_t t2_nok = 33;
+
+	bool ok = user_settings_validate_with_key("t2", &t2_ok, sizeof(t2_ok));
+	__ASSERT(ok, "t2_ok should be valid");
+	ok = user_settings_validate_with_key("t2", &t2_nok, sizeof(t2_nok));
+	__ASSERT(!ok, "t2_nok should not be valid");
+
+	/* The validator is also called when a setting is set, and prevents the value forn changing
+	 * if validation fails. Use the shell to test this. */
+
 	LOG_INF("Use the shell to list, get and set the setting values");
 	LOG_INF("Reboot the device to see that settings are reboot persistent");
 

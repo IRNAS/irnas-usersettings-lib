@@ -372,6 +372,40 @@ void user_settings_set_validate_cb_with_key(char *key, user_settings_validate_t 
 void user_settings_set_validate_cb_with_id(uint16_t id, user_settings_validate_t validate_cb);
 
 /**
+ * @brief Call the validation callback for a setting
+ *
+ * This will assert if no setting with the provided key exists.
+ * If the key input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_key().
+ *
+ * @param[in] key The key of the setting to check
+ * @param[in] data The data to validate
+ * @param[in] len The length of the data
+ *
+ * @retval true If the data is valid, or if no validation callback is set
+ * @retval false If the data is not valid
+ */
+bool user_settings_validate_with_key(char *key, void *data, size_t len);
+
+/**
+ * @brief Call the validation callback for a setting
+ *
+ * This behaves the same as user_settings_validate_with_key()
+ *
+ * This will assert if no setting with the provided ID exists.
+ * If the ID input for this function is unknown to the application (i.e. parsed from user input),
+ * then it should first be checked with user_settings_exists_with_id().
+ *
+ * @param[in] id The ID of the setting to check
+ * @param[in] data The data to validate
+ * @param[in] len The length of the data
+ *
+ * @retval true If the data is valid, or if no validation callback is set
+ * @retval false If the data is not valid
+ */
+bool user_settings_validate_with_id(uint16_t id, void *data, size_t len);
+
+/**
  * @brief Check if a setting has its value set
  *
  * This is only false if no default value for this setting exists and if
