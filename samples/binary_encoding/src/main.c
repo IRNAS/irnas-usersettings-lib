@@ -130,6 +130,5 @@ int main(void)
 		print_buf(buffer, ret, "GET FULL");
 	}
 
-	k_sleep(K_FOREVER);
 	return 0;
 }
