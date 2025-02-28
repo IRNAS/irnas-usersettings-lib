@@ -618,6 +618,7 @@ void user_settings_set_validate_cb_with_key(char *key, user_settings_validate_t 
 
 	s->validate_cb = validate_cb;
 }
+
 void user_settings_set_validate_cb_with_id(uint16_t id, user_settings_validate_t validate_cb)
 {
 	__ASSERT(prv_is_inited, INIT_ASSERT_TEXT);
@@ -626,6 +627,32 @@ void user_settings_set_validate_cb_with_id(uint16_t id, user_settings_validate_t
 	__ASSERT(s, "ID does not exists: %d", id);
 
 	s->validate_cb = validate_cb;
+}
+
+bool user_settings_validate_with_key(char *key, void *data, size_t len)
+{
+	__ASSERT(prv_is_inited, INIT_ASSERT_TEXT);
+
+	struct user_setting *s = user_settings_list_get_by_key(key);
+	__ASSERT(s, "Key does not exists: %s", key);
+
+	if (s->validate_cb) {
+		return s->validate_cb(s->id, s->key, data, len);
+	}
+	return true;
+}
+
+bool user_settings_validate_with_id(uint16_t id, void *data, size_t len)
+{
+	__ASSERT(prv_is_inited, INIT_ASSERT_TEXT);
+
+	struct user_setting *s = user_settings_list_get_by_id(id);
+	__ASSERT(s, "ID does not exists: %d", id);
+
+	if (s->validate_cb) {
+		return s->validate_cb(s->id, s->key, data, len);
+	}
+	return true;
 }
 
 /* this is only false if no default exists and no value was set */
