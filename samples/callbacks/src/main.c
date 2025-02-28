@@ -198,6 +198,5 @@ int main(void)
 	LOG_INF("Use the shell to list, get and set the setting values");
 	LOG_INF("Reboot the device to see that settings are reboot persistent");
 
-	k_sleep(K_FOREVER);
 	return 0;
 }

@@ -132,6 +132,5 @@ int main(void)
 		LOG_ERR("Unable to start Bluetooth, err: %d", err);
 	}
 
-	k_sleep(K_FOREVER);
 	return 0;
 }
