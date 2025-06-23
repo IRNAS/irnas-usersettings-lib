@@ -108,9 +108,10 @@ static void prv_shell_print_setting(const struct shell *shell_ptr, struct user_s
 
 static int cmd_list(const struct shell *shell_ptr, size_t argc, char *argv[])
 {
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting;
-	while ((setting = user_settings_list_iter_next()) != NULL) {
+	while ((setting = user_settings_list_iter_next(&ctx)) != NULL) {
 		prv_shell_print_setting(shell_ptr, setting);
 	}
 
@@ -119,9 +120,10 @@ static int cmd_list(const struct shell *shell_ptr, size_t argc, char *argv[])
 
 static int cmd_list_changed(const struct shell *shell_ptr, size_t argc, char *argv[])
 {
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting;
-	while ((setting = user_settings_list_iter_next()) != NULL) {
+	while ((setting = user_settings_list_iter_next(&ctx)) != NULL) {
 		if (setting->has_changed_recently) {
 			prv_shell_print_setting(shell_ptr, setting);
 		}
@@ -286,10 +288,11 @@ static int cmd_clear_changed_one(const struct shell *shell_ptr, size_t argc, cha
  */
 static struct user_setting *prv_get_us_by_idx(size_t idx)
 {
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting;
 	int c = 0;
-	while ((setting = user_settings_list_iter_next()) != NULL) {
+	while ((setting = user_settings_list_iter_next(&ctx)) != NULL) {
 		if (idx == c) {
 			return setting;
 		}

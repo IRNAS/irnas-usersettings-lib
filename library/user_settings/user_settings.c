@@ -445,10 +445,10 @@ void user_settings_restore_defaults(void)
 	/* by using prv_user_settings_set on each setting, the values will get stored and the
 	 * on_change callbacks will be called correctly
 	 */
-
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting;
-	while ((setting = user_settings_list_iter_next()) != NULL) {
+	while ((setting = user_settings_list_iter_next(&ctx)) != NULL) {
 		prv_settings_restore(setting);
 	}
 }
@@ -757,15 +757,15 @@ enum user_setting_type user_settings_get_type_with_id(uint16_t id)
 	return s->type;
 }
 
-void user_settings_iter_start(void)
+void user_settings_iter_start(struct user_settings_iter_ctx *ctx)
 {
-	user_settings_list_iter_start();
+	user_settings_list_iter_start(ctx);
 }
 
-bool user_settings_iter_next(char **key, uint16_t *id)
+bool user_settings_iter_next(struct user_settings_iter_ctx *ctx, char **key, uint16_t *id)
 {
 	struct user_setting *setting;
-	if ((setting = user_settings_list_iter_next()) != NULL) {
+	if ((setting = user_settings_list_iter_next(ctx)) != NULL) {
 		*key = setting->key;
 		*id = setting->id;
 		return true;
@@ -774,12 +774,12 @@ bool user_settings_iter_next(char **key, uint16_t *id)
 	}
 }
 
-bool user_settings_iter_next_changed(char **key, uint16_t *id)
+bool user_settings_iter_next_changed(struct user_settings_iter_ctx *ctx, char **key, uint16_t *id)
 {
 	bool prv_has_changed = 0;
 	struct user_setting *setting;
 	while (!prv_has_changed) {
-		if ((setting = user_settings_list_iter_next()) != NULL) {
+		if ((setting = user_settings_list_iter_next(ctx)) != NULL) {
 			prv_has_changed = setting->has_changed_recently;
 			if (prv_has_changed) {
 				*key = setting->key;
@@ -837,18 +837,20 @@ void user_settings_clear_changed(void)
 {
 	__ASSERT(prv_is_loaded, LOAD_ASSERT_TEXT);
 
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting;
-	while ((setting = user_settings_list_iter_next()) != NULL) {
+	while ((setting = user_settings_list_iter_next(&ctx)) != NULL) {
 		prv_set_changed_recently_flag(setting, 0);
 	}
 }
 
 bool user_settings_any_changed(void)
 {
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting;
-	while ((setting = user_settings_list_iter_next()) != NULL) {
+	while ((setting = user_settings_list_iter_next(&ctx)) != NULL) {
 		if (setting->has_changed_recently) {
 			return true;
 		}

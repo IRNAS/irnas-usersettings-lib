@@ -548,32 +548,37 @@ enum user_setting_type user_settings_get_type_with_id(uint16_t id);
 /**
  * @brief Start iteration over all user settings
  *
- * Call this before getting elements with user_settings_list_iter_next.
- * This will reset an in-progress iteration.
+ * Prepare the provided context for iteration over user settings.
+ *
+ * This must be called before calling other iteration functions.
+ *
+ * @param[in, out] ctx The context to use for the iteration.
  */
-void user_settings_iter_start(void);
+void user_settings_iter_start(struct user_settings_iter_ctx *ctx);
 
 /**
  * @brief Get next settings ID and KEY in the iteration
  *
+ * @param[in, out] ctx The context to use for the iteration.
  * @param[out] key The key of the next settings.
  * @param[out] id The ID of the next settings.
  *
  * @return True if we have next setting, false if there are no more.
  */
-bool user_settings_iter_next(char **key, uint16_t *id);
+bool user_settings_iter_next(struct user_settings_iter_ctx *ctx, char **key, uint16_t *id);
 
 /**
  * @brief Get next settings ID and KEY in the iteration
  *
  * Only returns settings with a set changed flag.
  *
+ * @param[in, out] ctx The context to use for the iteration.
  * @param[out] key The key of the next changed settings.
  * @param[out] id The ID of the next changed settings.
  *
  * @return True if we have next setting, false if there are no more.
  */
-bool user_settings_iter_next_changed(char **key, uint16_t *id);
+bool user_settings_iter_next_changed(struct user_settings_iter_ctx *ctx, char **key, uint16_t *id);
 
 /**
  * @brief Set the "has_changed_recently" flag

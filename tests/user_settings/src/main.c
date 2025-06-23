@@ -284,8 +284,9 @@ ZTEST(user_settings_suite, test_settings_iter_correct_count)
 	uint16_t id = 0;
 
 	/* Start iteration */
-	user_settings_iter_start();
-	while (user_settings_iter_next(&key, &id)) {
+	struct user_settings_iter_ctx ctx;
+	user_settings_iter_start(&ctx);
+	while (user_settings_iter_next(&ctx, &key, &id)) {
 		n_settings++;
 		zassert_equal(id, n_settings, "wrong id");
 	}
@@ -299,36 +300,37 @@ ZTEST(user_settings_suite, test_settings_iter_correct_key_and_id)
 	bool ret;
 
 	/* Start iteration */
-	user_settings_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_iter_start(&ctx);
 
 	/* Assert that key and ID are returned as expected */
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 1, "Id should be 1, was %d", id);
 	zassert_ok(strcmp(key, "t1"), "Key should be t1, was: %s", key);
 
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 2, "Id should be 2, was %d", id);
 	zassert_ok(strcmp(key, "t2"), "Key should be t2, was: %s", key);
 
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 3, "Id should be 3, was %d", id);
 	zassert_ok(strcmp(key, "t3"), "Key should be t3, was: %s", key);
 
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 4, "Id should be 4, was %d", id);
 	zassert_ok(strcmp(key, "t4"), "Key should be t4, was: %s", key);
 
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 5, "Id should be 5, was %d", id);
 	zassert_ok(strcmp(key, "t5"), "Key should be t5, was: %s", key);
 
 	/* Since we have 5 settings, we should get NULL here */
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_false(ret, "Return value should be false");
 }
 
@@ -340,24 +342,25 @@ ZTEST(user_settings_suite, test_settings_iter_restart_midway)
 	bool ret;
 
 	/* Start iteration */
-	user_settings_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_iter_start(&ctx);
 
 	/* Assert that key and ID are returned as expected */
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 1, "Id should be 1, was %d", id);
 	zassert_ok(strcmp(key, "t1"), "Key should be t1, was: %s", key);
 
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 2, "Id should be 2, was %d", id);
 	zassert_ok(strcmp(key, "t2"), "Key should be t2, was: %s", key);
 
 	/* Start again  */
-	user_settings_iter_start();
+	user_settings_iter_start(&ctx);
 
 	/* We should be back at first element */
-	ret = user_settings_iter_next(&key, &id);
+	ret = user_settings_iter_next(&ctx, &key, &id);
 	zassert_true(ret, "Return value should be true");
 	zassert_equal(id, 1, "Id should be 1, was %d", id);
 	zassert_ok(strcmp(key, "t1"), "Key should be t1, was: %s", key);
@@ -374,8 +377,9 @@ ZTEST(user_settings_suite, test_settings_changed_recently)
 	user_settings_clear_changed();
 
 	/* Start iteration */
-	user_settings_iter_start();
-	while (user_settings_iter_next_changed(&key, &id)) {
+	struct user_settings_iter_ctx ctx;
+	user_settings_iter_start(&ctx);
+	while (user_settings_iter_next_changed(&ctx, &key, &id)) {
 		n_changed++;
 	}
 	zassert_equal(n_changed, 0, "we cleared all, number of changed settings should be 0");
@@ -387,8 +391,8 @@ ZTEST(user_settings_suite, test_settings_changed_recently)
 
 	/* Start iteration */
 	n_changed = 0;
-	user_settings_iter_start();
-	while (user_settings_iter_next_changed(&key, &id)) {
+	user_settings_iter_start(&ctx);
+	while (user_settings_iter_next_changed(&ctx, &key, &id)) {
 		zassert_equal(id, 1, "changed id should be 1");
 		zassert_ok(strcmp(key, "t1"), "changed key should be t1");
 		n_changed++;
@@ -406,8 +410,8 @@ ZTEST(user_settings_suite, test_settings_changed_recently)
 
 	/* Start iteration */
 	n_changed = 0;
-	user_settings_iter_start();
-	while (user_settings_iter_next_changed(&key, &id)) {
+	user_settings_iter_start(&ctx);
+	while (user_settings_iter_next_changed(&ctx, &key, &id)) {
 		n_changed++;
 	}
 	zassert_equal(n_changed, 3, "we set 2 more, number of changed settings should be 3");
@@ -417,8 +421,8 @@ ZTEST(user_settings_suite, test_settings_changed_recently)
 
 	/* Start iteration */
 	n_changed = 0;
-	user_settings_iter_start();
-	while (user_settings_iter_next_changed(&key, &id)) {
+	user_settings_iter_start(&ctx);
+	while (user_settings_iter_next_changed(&ctx, &key, &id)) {
 		n_changed++;
 	}
 	zassert_equal(n_changed, 2, "we cleared 1 with id, number of changed settings should be 2");
@@ -428,8 +432,8 @@ ZTEST(user_settings_suite, test_settings_changed_recently)
 
 	/* Start iteration */
 	n_changed = 0;
-	user_settings_iter_start();
-	while (user_settings_iter_next_changed(&key, &id)) {
+	user_settings_iter_start(&ctx);
+	while (user_settings_iter_next_changed(&ctx, &key, &id)) {
 		n_changed++;
 	}
 	zassert_equal(n_changed, 1,
@@ -440,8 +444,8 @@ ZTEST(user_settings_suite, test_settings_changed_recently)
 
 	/* Start iteration */
 	n_changed = 0;
-	user_settings_iter_start();
-	while (user_settings_iter_next_changed(&key, &id)) {
+	user_settings_iter_start(&ctx);
+	while (user_settings_iter_next_changed(&ctx, &key, &id)) {
 		n_changed++;
 	}
 	zassert_equal(n_changed, 0, "we cleared all, number of changed settings should be 0");

@@ -70,6 +70,14 @@ enum user_setting_type {
 	USER_SETTINGS_TYPE_BYTES,
 };
 
+/**
+ * @brief Iterator context for user settings
+ */
+struct user_settings_iter_ctx {
+	sys_snode_t *iter_list_node;
+	bool iter_start;
+};
+
 #ifdef __cplusplus
 }
 #endif
