@@ -7,7 +7,7 @@
 # * Runs east release
 # If the _build_ is running due to the release creation, then the following also
 # happens:
-# * Creates 'artefacts' folder,
+# * Creates 'artifacts' folder,
 # * Copies release zip files and extra release notes files into it.
 #
 # Downloaded West modules, toolchain and nrfutil-toolchain-manager are cached in
@@ -23,8 +23,6 @@
 
 install-dep:
 	east install nrfutil-toolchain-manager
-	# Below line is needed, as the toolchain manager might be cached in CI, but not configured
-	~/.local/share/east/tooling/nrfutil/nrfutil toolchain-manager config --set install-dir=~/.local/share/east
 
 project-setup:
 	# Make a West workspace around this project
@@ -47,10 +45,10 @@ release:
 
 # Pre-package target is only run in release process.
 pre-package:
-	mkdir -p artefacts
-	cp release/*.zip artefacts
-	cp scripts/pre_changelog.md artefacts
-	cp scripts/post_changelog.md artefacts
+	mkdir -p artifacts
+	cp release/*.zip artifacts
+	cp scripts/pre_changelog.md artifacts
+	cp scripts/post_changelog.md artifacts
 
 test:
 	east twister -T tests --coverage --coverage-tool lcov -p native_sim

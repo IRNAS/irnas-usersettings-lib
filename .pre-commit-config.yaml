@@ -7,10 +7,8 @@ repos:
       - id: trailing-whitespace
         stages: [pre-commit]
         args: [--markdown-linebreak-ext=md]
-        exclude: '.*\.patch'
       - id: end-of-file-fixer
         stages: [pre-commit]
-        exclude: '.*\.patch'
       - id: check-yaml
         stages: [pre-commit]
       - id: check-merge-conflict
@@ -62,7 +60,7 @@ repos:
       - id: shellcheck
         stages: [pre-commit]
   - repo: https://github.com/scop/pre-commit-shfmt
-    rev: v3.10.0-1
+    rev: v3.11.0-1
     hooks:
       - id: shfmt
         stages: [pre-commit]
@@ -87,9 +85,11 @@ repos:
   - repo: https://github.com/igorshubovych/markdownlint-cli
     rev: v0.42.0
     hooks:
-      - id: markdownlint
+      - id: markdownlint-docker
         exclude: CHANGELOG.md
         args: [--fix]
         stages: [pre-commit]
 
 default_install_hook_types: [pre-commit, commit-msg]
+# Don't run pre-commit hooks on any of the patch files, we want them unchanged.
+exclude: '.*\.patch'
