@@ -8,7 +8,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ### Fixed
 
-- removed Cmake warning when not enabling the library caused by no sources being added.
+- Removed Cmake warning when not enabling the library caused by no sources being added.
+- Fixed binary protocol incorrectly encoding the setting ID.
 
 ## [1.9.0] - 2025-02-28
 
