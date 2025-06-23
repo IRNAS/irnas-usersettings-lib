@@ -117,9 +117,10 @@ ZTEST(user_settings_list_suite, test_list_add_repeated_keys_will_assert)
 ZTEST(user_settings_list_suite, test_list_iter_empty)
 {
 	/* empty list can be iterated over but returns NULL immediately */
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 
-	struct user_setting *us = user_settings_list_iter_next();
+	struct user_setting *us = user_settings_list_iter_next(&ctx);
 	zassert_is_null(us, "Iterating empty list should return NULL");
 }
 
@@ -133,31 +134,32 @@ ZTEST(user_settings_list_suite, test_list_iter)
 
 	/* check that iteration is in order */
 	struct user_setting *us;
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 
-	us = user_settings_list_iter_next();
+	us = user_settings_list_iter_next(&ctx);
 	zassert_not_null(us, "Item should be in list");
 	zassert_equal(us->id, 1, "Id of item is wrong");
 
-	us = user_settings_list_iter_next();
+	us = user_settings_list_iter_next(&ctx);
 	zassert_not_null(us, "Item should be in list");
 	zassert_equal(us->id, 2, "Id of item is wrong");
 
-	us = user_settings_list_iter_next();
+	us = user_settings_list_iter_next(&ctx);
 	zassert_not_null(us, "Item should be in list");
 	zassert_equal(us->id, 3, "Id of item is wrong");
 
-	us = user_settings_list_iter_next();
+	us = user_settings_list_iter_next(&ctx);
 	zassert_not_null(us, "Item should be in list");
 	zassert_equal(us->id, 4, "Id of item is wrong");
 
-	us = user_settings_list_iter_next();
+	us = user_settings_list_iter_next(&ctx);
 	zassert_is_null(us, "Iter should be NULL after all elements have been returned");
 
-	us = user_settings_list_iter_next();
+	us = user_settings_list_iter_next(&ctx);
 	zassert_is_null(us, "Iter should be NULL after all elements have been returned");
 
-	us = user_settings_list_iter_next();
+	us = user_settings_list_iter_next(&ctx);
 	zassert_is_null(us, "Iter should be NULL after all elements have been returned");
 }
 
@@ -171,15 +173,52 @@ ZTEST(user_settings_list_suite, test_list_iter_reset)
 
 	/* start iterating */
 	struct user_setting *us;
-	user_settings_list_iter_start();
-	user_settings_list_iter_next();
-	user_settings_list_iter_next();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
+	user_settings_list_iter_next(&ctx);
+	user_settings_list_iter_next(&ctx);
 
 	/* start again - we should be at the beginning of the list */
-	user_settings_list_iter_start();
-	us = user_settings_list_iter_next();
+	user_settings_list_iter_start(&ctx);
+	us = user_settings_list_iter_next(&ctx);
 	zassert_not_null(us, "Item should be in list");
 	zassert_equal(us->id, 1, "Id of item is wrong");
+}
+
+ZTEST(user_settings_list_suite, test_list_iter_multiple)
+{
+	/* Iteration is surposed to be threaa safe, since we are using a iteration context.
+	 * We test this by using 2 iteration contexts at the same time and checking that
+	 * they return the same values.
+	 */
+
+	/* add some items */
+	user_settings_list_add_fixed_size(1, "t1", USER_SETTINGS_TYPE_BOOL);
+	user_settings_list_add_fixed_size(2, "t2", USER_SETTINGS_TYPE_U16);
+
+	/* Start iterations */
+	struct user_setting *us1, *us2;
+	struct user_settings_iter_ctx ctx1, ctx2;
+	user_settings_list_iter_start(&ctx1);
+	user_settings_list_iter_start(&ctx2);
+
+	/* Assert that both iters return the first item */
+	us1 = user_settings_list_iter_next(&ctx1);
+	us2 = user_settings_list_iter_next(&ctx2);
+	zassert_not_null(us1, "Item should be in list");
+	zassert_not_null(us2, "Item should be in list");
+	zassert_equal(us1->id, 1, "Id of item is wrong in first iter");
+	zassert_equal(us2->id, 1, "Id of item is wrong in second iter");
+
+	/* Iterate to the end with first iterator */
+	while ((us1 = user_settings_list_iter_next(&ctx1)) != NULL) {
+		/* do nothing */
+	}
+
+	/* Check that second iter returns second item */
+	us2 = user_settings_list_iter_next(&ctx2);
+	zassert_not_null(us2, "Item should be in list");
+	zassert_equal(us2->id, 2, "Id of item is wrong in second iter");
 }
 
 ZTEST(user_settings_list_suite, test_list_find_by_key)

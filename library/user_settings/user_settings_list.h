@@ -144,7 +144,7 @@ void user_settings_list_free(void);
 /**
  * @brief Start iteration over the list
  */
-void user_settings_list_iter_start(void);
+void user_settings_list_iter_start(struct user_settings_iter_ctx *ctx);
 
 /**
  * @brief Get the next item in the list
@@ -153,7 +153,7 @@ void user_settings_list_iter_start(void);
  *
  * @return struct user_setting* The next item in the list
  */
-struct user_setting *user_settings_list_iter_next(void);
+struct user_setting *user_settings_list_iter_next(struct user_settings_iter_ctx *ctx);
 
 /**
  * @brief Get item in list by key

@@ -151,26 +151,24 @@ struct user_setting *user_settings_list_get_by_id(const uint16_t id)
 	return NULL;
 }
 
-static sys_snode_t *prv_iter_list_node = NULL;
-static bool iter_start = false;
-
-void user_settings_list_iter_start(void)
+void user_settings_list_iter_start(struct user_settings_iter_ctx *ctx)
 {
-	iter_start = true;
-	prv_iter_list_node = NULL;
+	__ASSERT(ctx, "Context cannot be NULL");
+	ctx->iter_start = true;
+	ctx->iter_list_node = NULL;
 }
 
-struct user_setting *user_settings_list_iter_next(void)
+struct user_setting *user_settings_list_iter_next(struct user_settings_iter_ctx *ctx)
 {
-	if (prv_iter_list_node == NULL && iter_start) {
-		prv_iter_list_node = sys_slist_peek_head(&prv_user_settings_list);
-		iter_start = false;
+	if (ctx->iter_list_node == NULL && ctx->iter_start) {
+		ctx->iter_list_node = sys_slist_peek_head(&prv_user_settings_list);
+		ctx->iter_start = false;
 	} else {
-		prv_iter_list_node = sys_slist_peek_next(prv_iter_list_node);
+		ctx->iter_list_node = sys_slist_peek_next(ctx->iter_list_node);
 	}
 
 	struct user_setting *us = NULL;
-	return SYS_SLIST_CONTAINER(prv_iter_list_node, us, list_node);
+	return SYS_SLIST_CONTAINER(ctx->iter_list_node, us, list_node);
 }
 
 void user_settings_list_free(void)

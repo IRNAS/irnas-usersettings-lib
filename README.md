@@ -98,13 +98,12 @@ For common validation cases, there are helper macros available in
 ## Iterators
 
 You can iterate trough existing settings using iterator functions. Call `user_settings_iter_start()`
-to reset iteration counters, then call `user_settings_iter_next(key, &id)` repeatedly to iterate
-trough all settings. When function returns `false` you have reached the end.
+to set up iteration, then call `user_settings_iter_next(key, &id)` repeatedly to iterate trough all
+settings. When function returns `false` you have reached the end.
 
 You can also iterate only trough recently set settings, i.e. with set flag `has_changed_recently`.
-Call `user_settings_iter_start()` to reset iteration counters, then call
-`user_settings_iter_next_changed(key, &id)` repeatedly to iterate trough all settings. When function
-returns `false` you have reached the end.
+Call `user_settings_iter_start()`, then call `user_settings_iter_next_changed(key, &id)` repeatedly
+to iterate trough all settings. When function returns `false` you have reached the end.
 
 ## JSON support
 
@@ -139,8 +138,8 @@ in mind you are responsible to delete the object. Function will not reset the fl
 
 A user setting bluetooth service can be enabled by setting `CONFIG_USER_SETTINGS_BT_SERVICE=y`. See
 the [bluetooth service sample](./samples/bluetooth_service) for details. The service uses the user
-settings binary protocol under the hood. For the protocol definition, see
-[here](./libraray/protocol/binary/README.md)
+settings binary protocol under the hood. For the protocol definition, see the
+[protocol definition docs](./libraray/protocol/binary/README.md)
 
 ## Development Setup
 
@@ -166,5 +165,5 @@ east update
 
 ### Setup `pre-commit`
 
-Turn on `pre-commit` tool by running `pre-commit install`. If you do not have it yet, follow
-instructions [here](https://github.com/IRNAS/irnas-guidelines-docs/tree/main/tools/pre-commit).
+Turn on `pre-commit` tool by running `pre-commit install`. If you do not have it yet, follow the
+[instructions](https://github.com/IRNAS/irnas-guidelines-docs/tree/main/tools/pre-commit).

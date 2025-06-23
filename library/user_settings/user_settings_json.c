@@ -279,9 +279,10 @@ int user_settings_get_all_json(cJSON **settings_out)
 	}
 
 	/* Iterate trough settings */
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting_data;
-	while ((setting_data = user_settings_list_iter_next()) != NULL) {
+	while ((setting_data = user_settings_list_iter_next(&ctx)) != NULL) {
 		cJSON *setting = prv_json_from_setting(setting_data);
 		if (setting != NULL) {
 			cJSON_AddItemToObject(settings, setting_data->key, setting);
@@ -303,9 +304,10 @@ int user_settings_get_changed_json(cJSON **settings_out)
 	}
 
 	/* Iterate trough settings */
-	user_settings_list_iter_start();
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting_data;
-	while ((setting_data = user_settings_list_iter_next()) != NULL) {
+	while ((setting_data = user_settings_list_iter_next(&ctx)) != NULL) {
 		if (setting_data->has_changed_recently) {
 			cJSON *setting = prv_json_from_setting(setting_data);
 			if (setting != NULL) {

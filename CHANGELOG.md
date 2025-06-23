@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 
 ## [Unreleased]
 
+### Changed
+
+- User settings iteration is now thread-safe.
+
 ### Fixed
 
 - Removed Cmake warning when not enabling the library caused by no sources being added.

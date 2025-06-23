@@ -81,8 +81,9 @@ static int prv_exec_list_common(struct usp_executor *usp_executor, uspe_encode_t
 	int ret;
 	struct user_setting *us;
 
-	user_settings_list_iter_start();
-	while ((us = user_settings_list_iter_next()) != NULL) {
+	struct user_settings_iter_ctx ctx;
+	user_settings_list_iter_start(&ctx);
+	while ((us = user_settings_list_iter_next(&ctx)) != NULL) {
 		ret = encode(us, usp_executor->resp_buffer, usp_executor->resp_buffer_len);
 		if (ret < 0) {
 			__ASSERT(ret == -ENOMEM,
