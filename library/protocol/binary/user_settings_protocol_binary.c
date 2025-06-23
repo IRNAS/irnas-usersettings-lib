@@ -142,8 +142,8 @@ int user_settings_protocol_binary_encode(struct user_setting *user_setting, uint
 	int i = 0;
 
 	/* ID */
-	buffer[i] = user_setting->id;
-	i += 2;
+	buffer[i++] = user_setting->id & 0xFF;
+	buffer[i++] = (user_setting->id >> 8) & 0xFF;
 
 	/* key with null terminator */
 	int key_len = strlen(user_setting->key) + 1;
