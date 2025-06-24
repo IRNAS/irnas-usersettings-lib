@@ -97,13 +97,13 @@ For common validation cases, there are helper macros available in
 
 ## Iterators
 
-You can iterate trough existing settings using iterator functions. Call `user_settings_iter_start()`
-to set up iteration, then call `user_settings_iter_next(key, &id)` repeatedly to iterate trough all
-settings. When function returns `false` you have reached the end.
+You can iterate through existing settings using iterator functions. Call
+`user_settings_iter_start()` to set up iteration, then call `user_settings_iter_next(key, &id)`
+repeatedly to iterate through all settings. When function returns `false` you have reached the end.
 
-You can also iterate only trough recently set settings, i.e. with set flag `has_changed_recently`.
+You can also iterate only through recently set settings, i.e. with set flag `has_changed_recently`.
 Call `user_settings_iter_start()`, then call `user_settings_iter_next_changed(key, &id)` repeatedly
-to iterate trough all settings. When function returns `false` you have reached the end.
+to iterate through all settings. When function returns `false` you have reached the end.
 
 ## JSON support
 

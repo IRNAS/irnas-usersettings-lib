@@ -278,7 +278,7 @@ int user_settings_get_all_json(cJSON **settings_out)
 		return -ENOMEM;
 	}
 
-	/* Iterate trough settings */
+	/* Iterate through settings */
 	struct user_settings_iter_ctx ctx;
 	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting_data;
@@ -303,7 +303,7 @@ int user_settings_get_changed_json(cJSON **settings_out)
 		return -ENOMEM;
 	}
 
-	/* Iterate trough settings */
+	/* Iterate through settings */
 	struct user_settings_iter_ctx ctx;
 	user_settings_list_iter_start(&ctx);
 	struct user_setting *setting_data;
